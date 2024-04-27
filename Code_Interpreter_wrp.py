@@ -78,32 +78,6 @@ class read_python_files(BaseTool):
             return str({'result': f'读取文件时发生错误: {e}'})
 
 
-@register_tool('Save_file')
-class Savelocalfile(BaseTool):
-    description = '导入本地Excel文件'
-    name = 'Save_file'
-    parameters: list = [{
-        'name': 'file_path',
-        'description': '文件本地路径',
-        'required': True,
-        'type': 'string'
-    },
-    {
-        'name': 'save_path',
-        'description': '保存路径',
-        'required': True,
-        'type': 'string'
-    }]
-
-    def call(self,params: str, **kwargs):
-        params = self._verify_args(params)
-        file_path = params['file_path']
-        save_path = params['save_path']
-        data = pd.read_excel(file_path,dtype=str,engine='openpyxl')
-        data = data.to_excel(save_path,index=False,engine='openpyxl')
-        return str({'result':f'读入文件成功,原文件路径为{file_path},保存文件路径为{save_path}'})
-
-
 role_template = '你扮演一个程序员，请根据要求完成任务。'
 llm_config = {'model': 'glm-4', 'model_server': 'zhipu'}
 function_list = ['code_interpreter', 'create_local_file', 'read_python_files']
